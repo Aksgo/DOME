@@ -3,10 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimization Result</title>
+    <title>Results</title>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #ffffff;
+}
+
+pre {
+    background-color: #2c2c2c;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+    color: #ffffff;
+}
+
+a {
+    color: #bb86fc;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+</style>
+
 </head>
 <body>
-    <h1>{{min_energy}}</h1>
-    <p>{{result}}</p>
+    <h1>Results</h1>
+    <h2>Minimum Energy: {{ min_energy }}</h2>
+    <h2>Possible Routes:</h2>
+    <pre>{{ routes }}</pre>
+    <h2>Result:</h2>
+    <pre>{{ result }}</pre>
+
+    <a href="/">Go back to the input page</a>
 </body>
 </html>

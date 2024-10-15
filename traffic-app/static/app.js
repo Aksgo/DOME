@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const initialSubmitButton = document.getElementById('submitInitial');
     initialSubmitButton.addEventListener('click', validateInitialInput);
 
-    const edgeSubmitButton = document.getElementById('submitEdges');
-    edgeSubmitButton.addEventListener('click', submitEdges);
+    const submit_data = document.getElementById('submitData');
+    submit_data.addEventListener('click', submitData);
 });
 
 function validateInitialInput() {
@@ -17,16 +17,19 @@ function validateInitialInput() {
         return;
     }
     createEdgeInputs(edges);
+    emergencyCarInput(emergencyCars);
+    normalCarInput(normalCars, emergencyCars);
+    document.getElementById('submitData').style.display = 'block';
+
 }
 
 function createEdgeInputs(numEdges) {
     const edgeInputsContainer = document.getElementById('edgeInputsContainer');
     edgeInputsContainer.innerHTML = '';
-    document.getElementById('initial-input').style.display = 'none';
     document.getElementById('edge-input-section').style.display = 'block';
-    for (let i = 0; i < numEdges; i++) {
+    for (let i=0; i<numEdges; i++) {
         const edgeDiv = document.createElement('div');
-        edgeDiv.className = 'edge-input';
+        edgeDiv.className = 'data-input';
         edgeDiv.innerHTML = `
             <h4>Edge ${i + 1}</h4>
             <label>From (u): </label>
@@ -42,13 +45,46 @@ function createEdgeInputs(numEdges) {
     }
 }
 
+function emergencyCarInput(numCars){
+    const car = document.getElementById('emergencyCarInput');
+    car.innerHTML="";
+    document.getElementById('car-section').style.display = 'block';
+    for(let i = 0; i<numCars; i++){
+        const carDiv = document.createElement('div');
+        carDiv.className='data-input';
+        carDiv.innerHTML=`
+        <h4>Car ${i + 1}</h4>
+            <label>From (source): </label>
+            <input type="number" name="src" min="0" required>
+            <label>To (destination): </label>
+            <input type="number" name="dest" min="0" required>
+        `;
+        car.appendChild(carDiv);
+    }
+}
+function normalCarInput(numCars, emergencyCars){
+    const car = document.getElementById('normalCarInput');
+    car.innerHTML="";
+    for(let i = 0; i<numCars; i++){
+        const carDiv = document.createElement('div');
+        carDiv.className='data-input';
+        carDiv.innerHTML=`
+        <h4>Car ${i+parseInt(emergencyCars)+1}</h4>
+            <label>From (source): </label>
+            <input type="number" name="src" min="0" required>
+            <label>To (destination): </label>
+            <input type="number" name="dest" min="0" required>
+        `;
+        car.appendChild(carDiv);
+    }
+}
+
 function submitEdges() {
     const form = document.getElementById('edgeForm');
     const formData = new FormData(form);
     const numEdges = document.getElementById('edges').value;
-
+    const numCars = parseInt(document.getElementById('normalCars').value) + parseInt(document.getElementById('emergencyCars').value);
     let valid = true;
-    console.log(formData)
     formData.forEach((value) => {
         if (!value) {
             valid = false;
@@ -65,24 +101,82 @@ function submitEdges() {
         const v = formData.getAll('v')[i];
         const congestion = formData.getAll('congestion')[i];
         const distance = formData.getAll('distance')[i];
-
         edges.push({
             u: parseInt(u),
             v: parseInt(v),
-            attributes: {
-                congestion: parseInt(congestion),
-                distance: parseInt(distance)
-            }
+            congestion: parseInt(congestion),
+            distance: parseInt(distance)
         });
     }
+    const netData = {
+        'edges':edges,
+        'no_of_cars':numCars
+    }
+    return netData;
+}
 
-    // Log the final JSON object to console (or send to server)
-    //console.log(edges);
-    //Convert to JSON object with correct format
-    const jsonEdges = edges.map(edge => {
-        return `(${edge.u}, ${edge.v}, {'congestion': ${edge.attributes.congestion}, 'distance': ${edge.attributes.distance}})`;
+function submitCar(){
+    const form = document.getElementById('car-form');
+    const formData = new FormData(form);
+    const numECars = parseInt(document.getElementById('normalCars').value)
+    const numNCars = parseInt(document.getElementById('emergencyCars').value);
+    let valid = true;
+    formData.forEach((value) => {
+        if (!value) {
+            valid = false;
+        }
     });
 
-    //console.log("Formatted Edges:", jsonEdges.join(",\n"));
-    alert('Edges have been submitted! Check console for JSON object.');
+    if (!valid) {
+        alert('Please fill out all car details');
+        return;
+    }
+    let cars = [];
+    for (let i = 0; i < numECars; i++) {
+        const src = formData.getAll('src')[i];
+        const dest = formData.getAll('dest')[i];
+        cars.push({
+            'src':src,
+            'dest':dest,
+            'type':1
+        });
+    }
+    for (let i = 0; i < numNCars; i++) {
+        const src = formData.getAll('src')[i+numECars];
+        const dest = formData.getAll('dest')[i+numECars];
+        cars.push({
+            'src':src,
+            'dest':dest,
+            'type':0
+        });
+    }
+    const carData = {
+        src_dest : cars
+    }
+    return carData;
+}
+
+function submitData(){
+    const netData = submitEdges()
+    const carData = submitCar();
+    const finalData =  {
+        'edges' : netData.edges,
+        'no_of_cars':netData.no_of_cars,
+        'src_dest':carData.src_dest
+    }
+
+    //calling the server to find the paths
+    fetch('/dome',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(finalData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success :', data))
+    .catch((error) => {
+        console.log('Error :', error);
+    })
+
 }

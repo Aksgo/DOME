@@ -157,7 +157,6 @@ def matrixWeight(net, route_edge, no_of_cars, no_of_routes, src_dest):
                 ele*=2
             ind+=1
             Q_weight.update({(i, index): ele})
-    print(Q_weight)
     return Q_weight
     
 def displayMatrix(Q, no_of_cars, no_of_routes):

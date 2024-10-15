@@ -4,52 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traffic Optimizer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        input {
-            margin: 5px;
-            padding: 8px;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px;
-        }
-        .edge-input {
-            margin: 10px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/styles.css"> 
 </head>
 <body>
-    <h1>Traffic Optimizer</h1>
-    <h3>Kindly enter the following information</h3>
+    <div class="container">
+        <h1>DOME Traffic Optimizer</h1>
+        <h3>Kindly enter the following information</h3>
 
-    <div id="initial-input">
-        <label for="nodes">Number of Nodes: </label>
-        <input type="number" id="nodes" min="1" required><br>
+        <div id="initial-input">
+            <label for="nodes">Number of Nodes:</label>
+            <input type="number" id="nodes" min="1" required>
 
-        <label for="edges">Number of Edges: </label>
-        <input type="number" id="edges" min="1" required><br>
+            <label for="edges">Number of Edges:</label>
+            <input type="number" id="edges" min="1" required>
 
-        <label for="emergencyCars">Number of Emergency Cars to Reroute: </label>
-        <input type="number" id="emergencyCars" min="0" required><br>
+            <label for="emergencyCars">Number of Emergency Cars to Reroute:</label>
+            <input type="number" id="emergencyCars" min="0" required>
 
-        <label for="normalCars">Number of Normal Cars to Reroute: </label>
-        <input type="number" id="normalCars" min="0" required><br>
+            <label for="normalCars">Number of Normal Cars to Reroute:</label>
+            <input type="number" id="normalCars" min="0" required>
 
-        <button id="submitInitial">Submit</button>
+            <button id="submitInitial">Submit</button>
+        </div>
+
+        <div id="edge-input-section" style="display: none;">
+            <h3>Enter the edges with their congestion and distance values</h3>
+            <form id="edgeForm">
+                <div id="edgeInputsContainer"></div>
+            </form>
+        </div>
+
+        <div id="car-section" style="display: none;">
+            <form id="car-form">
+                <h3>Enter the source and destination of emergency cars</h3>
+                <b>Due to some limitations of our model, please give only those source and destinations which have 3 or more than 3 paths.</b>
+                <div id="emergencyCarInput"></div>
+                <h3>Enter the source and destination of normal cars</h3>
+                <b>Due to some limitations of our model, please give only those source and destinations which have 3 or more than 3 paths.</b>
+                <div id="normalCarInput"></div>
+            </form>
+        </div>
+        <button type="button" id="submitData" style="display:none">Submit Data</button>
     </div>
-
-    <div id="edge-input-section" style="display: none;">
-        <h3>Enter the edges with their congestion and distance values</h3>
-        <form id="edgeForm">
-            <div id="edgeInputsContainer"></div>
-            <button type="button" id="submitEdges">Submit Edges</button>
-        </form>
-    </div>
-
+    
     <script src="/static/app.js"></script>
 </body>
 </html>
