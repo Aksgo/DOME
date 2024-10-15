@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
-import matplotlib.pyplot as plt
 import os
-from trafficOptimize import solver
-app = Flask(__name__, template_folder="templates")
+import networkx
+from trafficOptimize import solver, alternativeRoutes
+app = Flask(__name__, template_folder="templates", static_folder='static', static_url_path='/static')
 
 @app.route('/')
 def home():
@@ -22,10 +22,13 @@ def run():
     (1, 3, {'congestion': 15, 'distance': 2}),
     (0, 3, {'congestion': 5, 'distance': 3})
     ]
-    no_of_cars = 3
-    src_dest = [(0,4,0),(0,4,0),(0,3,1)]
-    min_energy, result = solver(edges, no_of_cars, src_dest)
-    return render_template('result.html', result = result, min_energy = min_energy)
+    no_of_cars = 2
+    src_dest = [(0,4,0),(0,4,0)]
+    net = networkx.DiGraph()
+    net.add_edges_from(edges)
+    routes = alternativeRoutes(net, no_of_cars, src_dest)
+    min_energy,result = solver(net, no_of_cars, src_dest)
+    return render_template('result.html', result = routes, min_energy = min_energy)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)

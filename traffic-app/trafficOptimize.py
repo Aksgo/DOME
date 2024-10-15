@@ -208,12 +208,9 @@ def formQuboMatrix(net, routes, no_of_car, no_of_routes, src_dest):
     return Q 
 
 #displayMatrix(Q, no_of_cars, no_of_routes)
-def solver(edges,no_of_cars,src_dest):
+def solver(net,no_of_cars,src_dest):
 
     ## Graph formation using NetworkX
-
-    net = gp.DiGraph()
-    net.add_edges_from(edges)
     '''plt.figure(figsize=(9,9))
     pos = gp.planar_layout(net)
     gp.draw_networkx_nodes(net, pos, node_color='green', node_size=400)
@@ -227,10 +224,9 @@ def solver(edges,no_of_cars,src_dest):
     #forming QUBO matrix
 
     routes  = alternativeRoutes(net, no_of_cars,src_dest)
-    print(routes)
     no_of_routes = len(routes[0])
     routes_edge = nodeToEdge(routes,no_of_cars,no_of_routes)
-    Q = formQuboMatrix(net, routes_edge, no_of_cars, no_of_routes)
+    Q = formQuboMatrix(net, routes_edge, no_of_cars, no_of_routes, src_dest)
     
     #running the classical solver 
 
