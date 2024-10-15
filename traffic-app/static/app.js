@@ -156,7 +156,7 @@ function submitCar(){
     return carData;
 }
 
-function submitData(){
+async function submitData(){
     const netData = submitEdges()
     const carData = submitCar();
     const finalData =  {
@@ -166,17 +166,17 @@ function submitData(){
     }
 
     //calling the server to find the paths
-    fetch('/dome',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json'
+    const response = await fetch('/dome', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(finalData)
-    })
-    .then(response => response.json())
-    .then(data => console.log('Success :', data))
-    .catch((error) => {
-        console.log('Error :', error);
-    })
+        body: JSON.stringify({'key':'value'})
+    });
+
+    // Wait for the POST request to finish and redirect to results page
+    if (response.ok) {
+        window.location.href = '/results'; // Redirect to results page after processing
+    }
 
 }

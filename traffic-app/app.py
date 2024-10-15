@@ -1,15 +1,15 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session,redirect, url_for
 import os
 import numpy as np
 import networkx
 from trafficOptimize import solver, alternativeRoutes
 app = Flask(__name__, template_folder="templates", static_folder='static', static_url_path='/static')
-
+app.secret_key = os.urandom(24)
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/dome', methods=['GET','POST'])
+@app.route('/dome', methods=['POST'])
 def run_dome():
     #data = request.json
     no_of_cars = 2
@@ -30,7 +30,21 @@ def run_dome():
     net.add_edges_from(edges)
     routes = alternativeRoutes(net, no_of_cars, src_dest)
     min_energy,result = solver(net, no_of_cars, src_dest)
-    return render_template('result.html', result = result, min_energy = min_energy, routes = routes)
+    min_energy = int(min_energy)
+    print(type(result[0][0]))
+    #storing in session storage to retrieve later
+    session['min_energy'] = min_energy
+    session['routes'] = routes
+    session['result'] = result
+    return redirect(url_for('show_results'))
+
+@app.route('/results')
+def show_results():
+    min_energy = session.get('min_energy')
+    routes = session.get('routes')
+    result = session.get('result')
+    return render_template('result.html', result=result, min_energy=min_energy, routes=routes)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
