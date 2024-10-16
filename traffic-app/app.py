@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session,redirect, url_for
 import os
-import numpy as np
+from beautify import processEdges, processCarData
 import networkx
 from trafficOptimize import solver, alternativeRoutes
 app = Flask(__name__, template_folder="templates", static_folder='static', static_url_path='/static')
@@ -11,9 +11,13 @@ def home():
 
 @app.route('/dome', methods=['POST'])
 def run_dome():
-    #data = request.json
+    data = request.json
     no_of_cars = 2
-    #no_of_cars = data.get('no_of_cars')
+    no_of_cars = data.get('no_of_cars')
+    edges_raw = data.get('edges')
+    sd_raw = data.get('src_dest')
+    edges = processEdges(edges_raw)
+    #to disable
     edges = [
     (0, 1, {'congestion': 2, 'distance': 2}),
     (1, 2, {'congestion': 10, 'distance': 2}),
@@ -25,16 +29,18 @@ def run_dome():
     (1, 3, {'congestion': 15, 'distance': 2}),
     (0, 3, {'congestion': 5, 'distance': 3})
     ]
-    src_dest = [(0,4,0),(0,4,0)]
+    src_dest = processCarData(sd_raw)
+    #to disable
+    src_dest = [(0,4,1),(0,4,0)]
     net = networkx.DiGraph()
     net.add_edges_from(edges)
     routes = alternativeRoutes(net, no_of_cars, src_dest)
     min_energy,result = solver(net, no_of_cars, src_dest)
     min_energy = int(min_energy)
-    print(type(result[0][0]))
+    print(sd_raw)
     #storing in session storage to retrieve later
     session['min_energy'] = min_energy
-    session['routes'] = [[[1,4],[1,3,4]],[[2,3,4],[2,5,4]]]
+    session['routes'] = routes
     session['result'] = [[1,0,0,0,1,0]]
     return redirect(url_for('show_results'))
 

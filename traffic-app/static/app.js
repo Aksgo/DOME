@@ -13,7 +13,7 @@ function validateInitialInput() {
     const normalCars = document.getElementById('normalCars').value;
 
     if (!nodes || !edges || !emergencyCars || !normalCars) {
-        alert('Some error in input');
+        alert('Please fill out all the details');
         return;
     }
     createEdgeInputs(edges);
@@ -136,8 +136,8 @@ function submitCar(){
         const src = formData.getAll('src')[i];
         const dest = formData.getAll('dest')[i];
         cars.push({
-            'src':src,
-            'dest':dest,
+            'src':parseInt(src),
+            'dest':parseInt(dest),
             'type':1
         });
     }
@@ -145,8 +145,8 @@ function submitCar(){
         const src = formData.getAll('src')[i+numECars];
         const dest = formData.getAll('dest')[i+numECars];
         cars.push({
-            'src':src,
-            'dest':dest,
+            'src':parseInt(src),
+            'dest':parseInt(dest),
             'type':0
         });
     }
@@ -171,7 +171,7 @@ async function submitData(){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'key':'value'})
+        body: JSON.stringify(finalData)
     });
 
     // Wait for the POST request to finish and redirect to results page
