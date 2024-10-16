@@ -1,20 +1,20 @@
 
 # DOME Traffic Optimizer
 <ul>
-<li>The project aims is to provide way to reduce traffic congestion and delays, and prioritize emergency vehicle by rerouting them and optimizing traffic light timings</li>
-<li>The tool will provide both a standalone application and a web-based interface to effectively optimize traffic</li>
-<li>'DOME' is just some name easy to call =)</li>
+<li>This project is to provide a way to reduce traffic congestion and delays. Also prioritize emergency vehicle by re-routing them and optimizing traffic light timings</li>
+<li>It is a web-based solution to  optimize the traffic effectively</li>
+<li>'DOME' is just a name, easy to call =)</li>
 <hr>
 <b>NOTE :</b> For testing sample data , please check city-network.ipynb and if you want to insert your own network please perform the local installation steps
 <hr>
 
 # Index
-1. [Requirement and Deployment](#requirement-and-deployment)
+1. [Setting up the Project](#setting-up-the-project)
 2. [Features](#features)
 3. [Preview](#preview)
 4. [DOME implementation](#dome-implementation)
 
-# Requirement and Deployment
+# Setting up the Project
 <h3>Required Tech</h3>
 <table>
     <thead>
@@ -35,12 +35,9 @@
     </tbody>
 </table>
 <h3>Local Installation</h3>
+<p>Please type the following commands inside Anaconda Prompt</p>
 
-```
-Type the commands inside on your anaconda prompt
-```
-
-1. In the terminal clone the project.
+1. Clone the project repo into any desired folder
 
 ```
 git clone https://github.com/Aksgo/City-traffic-optimization.git
@@ -52,7 +49,7 @@ git clone https://github.com/Aksgo/City-traffic-optimization.git
 cd ./traffic-app
 ```
 
-3. In your anaconda prompt create a virtual environment
+3. Create a virtual environment
 
 ```
 conda create --name traffic-app-env python=3.8
@@ -68,7 +65,7 @@ conda activate traffic-app-env
 pip install -r requirements.txt
 ```
 
-6. Start The server
+6. Start the server
 ```
 python app.py
 ```
@@ -77,7 +74,7 @@ python app.py
 
 <ul>
   <li>Interface to input the city network (may seem a little robust :) but improving)</li>
-  <li>Give priority to emrgency vehicles</li>
+  <li>Give priority to emergency vehicles</li>
   <li>Finds three best routes using k_simple_path algorithm</li>
   <li>Runs Optimization using QUBO formation to find the best of three paths for each Vehicle</li>
   <li>Currently, using dimod exactSolver to simulate solving of QUBO on a Quantum Annealer</li>
@@ -92,20 +89,21 @@ python app.py
 
 # DOME Implementation
 <ul>
-  <h3>Below I have explained the working of Model implemented till now</h3>
-  <li>Utliized Networkx to form and visualize directed graphs and perform some starter algorithms</li>
-  <li>Each road (edge) has two parameters : congestion (no of vehicles) and distance (the length of road)</li>
-  <li>Then the model inputs all the the required details of emergency vehicles and normal vehicles (their source and destination)</li>
-  <li>Using networkx k_simple_path algorithm (essenstially multiple times dijkstra) we find the all the simple paths (non-cyclic) from source to destination (for each vehicle)</li>
-  <li>Used Jaccard Similarity Index to find least overlapping paths</li>
-  <li>Formed i*j binary variables where i = number of Cars and j = number of alternative routes</li>
-  <li>Implemented weight for each binary variables based on :
+    <h3>Summary of current implementation</h3>
+    <li>Utliized networkx library to form and visualize directed graphs</li>
+    <li>Each road (edge) has two parameters : congestion (no of vehicles) and distance (the length of road)</li>
+    <li>Each vehicle input consist of two parameters : source node, destination node</li>
+    <li>First the model routes emergency vehicles and after that normal vehicles</li>
+    <li>Using networkx k_simple_path algorithm (essentially multiple times dijkstra) we find all the simple paths (non-cyclic) from source to destination (for each vehicle)</li>
+    <li>Used Jaccard Similarity Index to find least overlapping paths</li>
+    <li>Formed i*j binary variables where i = number of Cars and j = number of alternative routes</li>
+    <li>Implemented weight for each binary variables based on following :
     <ul>
       <li>If non emergency car then increase the weight</li>
-      <li>For each of the three routes, I prioritized them based on an overall parameter: (1.5*total_congestion + 1*total_distance)</li>
-      <li>congestion heavier parameter then distance (more weight)</li>
+      <li>Each of the three routes are prioritized based on an overall parameter : (1.5*total_congestion + 1*total_distance)</li>
+      <li>Congestion heavier parameter then distance (more weight)</li>
     </ul>
-  </li>
-  <li>Finally Formed the QUBO matrix based on the equation</li>
-  <li>Solved it (for now) using dimod's eactSolver (classical simulator)</li>
+    </li>
+    <li>Finally formed the QUBO matrix based on the equation</li>
+    <li>Solved it (for now) using dimod's eactSolver (classical simulator) which aims to minimize the total energy</li>
 </ul>
