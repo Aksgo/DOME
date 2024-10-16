@@ -34,8 +34,8 @@ def run_dome():
     print(type(result[0][0]))
     #storing in session storage to retrieve later
     session['min_energy'] = min_energy
-    session['routes'] = routes
-    session['result'] = result
+    session['routes'] = [[[1,4],[1,3,4]],[[2,3,4],[2,5,4]]]
+    session['result'] = [[1,0,0,0,1,0]]
     return redirect(url_for('show_results'))
 
 @app.route('/results')
