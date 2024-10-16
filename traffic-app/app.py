@@ -31,7 +31,7 @@ def run_dome():
     sd_raw = data.get('src_dest')
     edges = processEdges(edges_raw)
     #to disable
-    edges = [
+    '''edges = [
     (0, 1, {'congestion': 2, 'distance': 2}),
     (1, 2, {'congestion': 10, 'distance': 2}),
     (2, 3, {'congestion': 1, 'distance': 2}),
@@ -41,10 +41,10 @@ def run_dome():
     (6, 4, {'congestion': 1, 'distance': 2}),
     (1, 3, {'congestion': 15, 'distance': 2}),
     (0, 3, {'congestion': 5, 'distance': 3})
-    ]
+    ]'''
     src_dest = processCarData(sd_raw)
     #to disable
-    src_dest = [(0,4,0),(0,4,0),(0,4,0)]
+    #src_dest = [(0,4,0),(0,4,0),(0,4,0)]
 
     #network formation
     net = gp.DiGraph()
