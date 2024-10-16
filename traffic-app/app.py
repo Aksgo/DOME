@@ -12,8 +12,9 @@ def home():
 @app.route('/dome', methods=['POST'])
 def run_dome():
     data = request.json
-    no_of_cars = 2
     no_of_cars = data.get('no_of_cars')
+    #to disable
+    no_of_cars = 2
     edges_raw = data.get('edges')
     sd_raw = data.get('src_dest')
     edges = processEdges(edges_raw)
@@ -37,11 +38,10 @@ def run_dome():
     routes = alternativeRoutes(net, no_of_cars, src_dest)
     min_energy,result = solver(net, no_of_cars, src_dest)
     min_energy = int(min_energy)
-    print(sd_raw)
     #storing in session storage to retrieve later
     session['min_energy'] = min_energy
     session['routes'] = routes
-    session['result'] = [[1,0,0,0,1,0]]
+    session['result'] = result
     return redirect(url_for('show_results'))
 
 @app.route('/results')

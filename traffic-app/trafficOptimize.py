@@ -237,12 +237,16 @@ def solver(net,no_of_cars,src_dest):
     resulting_energy = list(response.data_vectors['energy'])
     min_energy = min(resulting_energy)
     ct = resulting_energy.count(min_energy)
-    best_result = []
-    for i in range(ct):
-        best_result.append(list(dict.values(dict(result[i]))))
+    last_result = list(dict.values(dict(result[ct-1])))
+    '''possible result with same energy'''
+    #for i in range(ct):
+        #best_result.append(list(dict.values(dict(result[i]))))
+    
+    '''taking only the last value of that energy (in general the best result)'''
+    for i in range(len(last_result)):
+        last_result[i] = int(last_result[i])
 
-     #returning the final result   
-    return min_energy, best_result
+    return min_energy, last_result
 
     '''print("minimum energy :",min_energy)
     car1_nodes = []
