@@ -1,26 +1,6 @@
 import networkx as gp
 import matplotlib.pyplot as plt
 import dimod
-'''
-num_nodes = 6
-
-edges = [
-    (0,1,{'congestion':100, 'distance':40}),
-    (0,2,{'congestion':10, 'distance':30}),
-    (1,3,{'congestion':200, 'distance':260}),
-    (1,4,{'congestion':110, 'distance':100}),
-    (2,4,{'congestion':10, 'distance':500}),
-    (2,5,{'congestion':12, 'distance':300}),
-    (3,4,{'congestion':35, 'distance':6000}),
-    (4,2,{'congestion':54, 'distance':300}),
-    (0,5,{'congestion':200, 'distance':50}),
-    (0,3,{'congestion':50, 'distance':3000})
-]
-
-no_of_cars = 3
-src_dest = [(0,4,0),(0,4,0),(0,3,1)]
-'''
-
 
 ### Alternative Routes
 

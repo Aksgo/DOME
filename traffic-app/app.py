@@ -3,11 +3,11 @@ import os
 import shutil
 from beautify import processEdges, processCarData
 import networkx as gp
-import random
 import matplotlib
-matplotlib.use('Agg')  # Use Agg backend
+matplotlib.use('Agg') # using matplotlib at backend
 import matplotlib.pyplot as plt
 from trafficOptimize import solver, alternativeRoutes
+
 app = Flask(__name__, template_folder="templates", static_folder='static', static_url_path='/static')
 app.secret_key = os.urandom(24)
 DIR = "static/plots"
@@ -26,12 +26,12 @@ def run_dome():
     data = request.json
     no_of_cars = data.get('no_of_cars')
     #to disable
-    no_of_cars = 3
+    #no_of_cars = 3
     edges_raw = data.get('edges')
     sd_raw = data.get('src_dest')
     edges = processEdges(edges_raw)
     #to disable
-    edges = [
+    '''edges = [
     (0, 1, {'congestion': 2, 'distance': 2}),
     (1, 2, {'congestion': 10, 'distance': 2}),
     (2, 3, {'congestion': 1, 'distance': 2}),
@@ -41,10 +41,10 @@ def run_dome():
     (6, 4, {'congestion': 1, 'distance': 2}),
     (1, 3, {'congestion': 15, 'distance': 2}),
     (0, 3, {'congestion': 5, 'distance': 3})
-    ]
+    ]'''
     src_dest = processCarData(sd_raw)
     #to disable
-    src_dest = [(0,4,0),(0,4,0),(0,4,0)]
+    #src_dest = [(0,4,0),(0,4,0),(0,4,0)]
 
     #network formation
     net = gp.DiGraph()
@@ -54,7 +54,7 @@ def run_dome():
     #running DOME - utilizing classical simulator
     min_energy,result,bestRoute = solver(net, no_of_cars, src_dest)
 
-    #graph plot
+    #network plot
     plt.figure(figsize=(9,9))
     pos = gp.planar_layout(net)
     gp.draw_networkx_nodes(net, pos, node_color='green', node_size=400)

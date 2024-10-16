@@ -1,3 +1,4 @@
+import networkx as gp
 def processEdges(edges_raw):
     edges=[]
     for d in edges_raw:
