@@ -1,5 +1,5 @@
 
-# Traffic Optimizer
+# DOME Traffic Optimizer
 <ul>
 <li>The project aims is to provide way to reduce traffic congestion and delays, and prioritize emergency vehicle by rerouting them and optimizing traffic light timings</li>
 <li>The tool will provide both a standalone application and a web-based interface to effectively optimize traffic</li>
