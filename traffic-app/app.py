@@ -1,20 +1,32 @@
-from flask import Flask, render_template, request, jsonify, session,redirect, url_for
+from flask import Flask, render_template, request, jsonify, session, send_file
 import os
+import shutil
 from beautify import processEdges, processCarData
-import networkx
+import networkx as gp
+import random
+import matplotlib
+matplotlib.use('Agg')  # Use Agg backend
+import matplotlib.pyplot as plt
 from trafficOptimize import solver, alternativeRoutes
 app = Flask(__name__, template_folder="templates", static_folder='static', static_url_path='/static')
 app.secret_key = os.urandom(24)
+DIR = "static/plots"
 @app.route('/')
 def home():
     return render_template('index.html')
 
 @app.route('/dome', methods=['POST'])
 def run_dome():
+
+    #clearing previous data
+    if  os.path.exists(DIR):
+        shutil.rmtree(DIR)
+    os.makedirs(DIR)
+    #data
     data = request.json
     no_of_cars = data.get('no_of_cars')
     #to disable
-    no_of_cars = 2
+    no_of_cars = 3
     edges_raw = data.get('edges')
     sd_raw = data.get('src_dest')
     edges = processEdges(edges_raw)
@@ -32,24 +44,52 @@ def run_dome():
     ]
     src_dest = processCarData(sd_raw)
     #to disable
-    src_dest = [(0,4,1),(0,4,0)]
-    net = networkx.DiGraph()
+    src_dest = [(0,4,0),(0,4,0),(0,4,0)]
+
+    #network formation
+    net = gp.DiGraph()
     net.add_edges_from(edges)
     routes = alternativeRoutes(net, no_of_cars, src_dest)
-    min_energy,result = solver(net, no_of_cars, src_dest)
-    min_energy = int(min_energy)
+    
+    #running DOME - utilizing classical simulator
+    min_energy,result,bestRoute = solver(net, no_of_cars, src_dest)
+
+    #graph plot
+    plt.figure(figsize=(9,9))
+    pos = gp.planar_layout(net)
+    gp.draw_networkx_nodes(net, pos, node_color='green', node_size=400)
+    gp.draw_networkx_edges(net, pos, arrowstyle='-|>', arrowsize=10)
+    edge_labels = {(u, v): f'c: {d["congestion"]}, d: {d["distance"]}' for u, v, d in net.edges(data=True)}
+    gp.draw_networkx_edge_labels(net, pos, edge_labels=edge_labels)
+    gp.draw_networkx_labels(net, pos, font_size=10, font_color='white')
+    plt.title("Directed Graph with Congestion Levels")
+    plot_path = os.path.join(DIR, 'network.png')
+    plt.savefig(plot_path)
+
+
     #storing in session storage to retrieve later
     session['min_energy'] = min_energy
     session['routes'] = routes
     session['result'] = result
-    return redirect(url_for('show_results'))
+    session['numCars'] = no_of_cars
+    session['bestRoute'] = bestRoute
+    return jsonify({'key':'value'})
 
 @app.route('/results')
 def show_results():
     min_energy = session.get('min_energy')
     routes = session.get('routes')
     result = session.get('result')
-    return render_template('result.html', result=result, min_energy=min_energy, routes=routes)
+    numCars = session.get('numCars')
+    bestRoute = session.get('bestRoute')
+    return render_template(
+        'result.html', 
+        result=result, 
+        min_energy=min_energy,
+        routes=routes,
+        numCars = numCars,
+        bestRoute=bestRoute
+        )
 
 
 if __name__ == '__main__':

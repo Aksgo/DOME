@@ -80,3 +80,8 @@ button:disabled {
     background-color: #444;
     cursor: not-allowed;
 }
+#limitation{
+    font-size: 13px;
+    text-align: center;
+    color: #959595;
+}

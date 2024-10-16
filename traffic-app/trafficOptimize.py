@@ -246,7 +246,15 @@ def solver(net,no_of_cars,src_dest):
     for i in range(len(last_result)):
         last_result[i] = int(last_result[i])
 
-    return min_energy, last_result
+    bestRoute = []
+    ind = 0
+    for i in range(no_of_cars):
+        for j in range(len(routes[0])):
+            if(last_result[ind]==1):
+                bestRoute.append(routes[i][j])
+            ind+=1
+    min_energy = int(min_energy)
+    return min_energy, last_result,bestRoute
 
     '''print("minimum energy :",min_energy)
     car1_nodes = []
