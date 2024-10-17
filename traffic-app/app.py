@@ -42,6 +42,25 @@ def run_dome():
     (1, 3, {'congestion': 15, 'distance': 2}),
     (0, 3, {'congestion': 5, 'distance': 3})
     ]'''
+    edges = [
+    (0, 1, {'congestion': 3, 'distance': 5}),
+    (0, 2, {'congestion': 8, 'distance': 4}),
+    (1, 3, {'congestion': 10, 'distance': 6}),
+    (2, 4, {'congestion': 5, 'distance': 3}),
+    (3, 5, {'congestion': 2, 'distance': 7}),
+    (6, 4, {'congestion': 4, 'distance': 2}),
+    (5, 7, {'congestion': 12, 'distance': 3}),
+    (6, 8, {'congestion': 7, 'distance': 4}),
+    (1, 4, {'congestion': 6, 'distance': 2}),
+    (2, 5, {'congestion': 11, 'distance': 5}),
+    (3, 6, {'congestion': 9, 'distance': 4}),
+    (4, 7, {'congestion': 8, 'distance': 3}),
+    (5, 8, {'congestion': 5, 'distance': 2}),
+    (0, 3, {'congestion': 14, 'distance': 6}),
+    (1, 5, {'congestion': 13, 'distance': 7}),
+    (6, 7, {'congestion': 4, 'distance': 3}),
+    (7, 8, {'congestion': 3, 'distance': 2})
+    ]
     src_dest = processCarData(sd_raw)
     #to disable
     #src_dest = [(0,4,0),(0,4,0),(0,4,0)]
@@ -56,7 +75,7 @@ def run_dome():
 
     #network plot
     plt.figure(figsize=(9,9))
-    pos = gp.planar_layout(net)
+    pos = gp.spring_layout(net)
     gp.draw_networkx_nodes(net, pos, node_color='green', node_size=400)
     gp.draw_networkx_edges(net, pos, arrowstyle='-|>', arrowsize=10)
     edge_labels = {(u, v): f'c: {d["congestion"]}, d: {d["distance"]}' for u, v, d in net.edges(data=True)}
