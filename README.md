@@ -1,11 +1,18 @@
 
 # DOME Traffic Optimizer
 <ul>
-<li>This project is to provide a way to reduce traffic congestion and delays. Also prioritize emergency vehicle by re-routing them and optimizing traffic light timings</li>
+<li>This project is to provide a way to :
+    <ul>
+        <li>Reduce traffic congestion</li>
+        <li>Reduce delays</li>
+        <li>Prioritize emergency vehicle</li>
+        <li>Optimizing traffic light timing</li>
+    </ul>
 <li>It is a web-based solution to  optimize the traffic effectively</li>
+<li>Please view the document 'QUBO-Equation.pdf' to check the equations used</li>
 <li>'DOME' is just a name, easy to call =)</li>
 <hr>
-<b>NOTE :</b> For testing sample data , please check city-network.ipynb and if you want to insert your own network please perform the local installation steps
+<b>NOTE :</b> For testing sample data , please check city-network.ipynb and if you want to insert your own network please install the traffic-app following the instructions below
 <hr>
 
 # Index
@@ -73,11 +80,12 @@ python app.py
 # Features
 
 <ul>
-  <li>Interface to input the city network (may seem a little robust :) but improving)</li>
-  <li>Give priority to emergency vehicles</li>
-  <li>Finds three best routes using k_simple_path algorithm</li>
-  <li>Runs Optimization using QUBO formation to find the best of three paths for each Vehicle</li>
-  <li>Currently, using dimod exactSolver to simulate solving of QUBO on a Quantum Annealer</li>
+    <li>Interface to input the city network (may seem a little robust :) but improving)</li>
+    <li>Give priority to emergency vehicles</li>
+    <li>Finds three best routes using k_simple_path algorithm</li>
+    <li>Utilize congestion parameter to optimize the green the green light timing (aims to increase the time at most congested places)</li>
+    <li>Runs Optimization using QUBO formation to find the best of three paths for each Vehicle</li>
+    <li>Currently, using dimod exactSolver to simulate solving of QUBO on a Quantum Annealer</li>
 </ul>
 
 # Preview
@@ -89,7 +97,9 @@ python app.py
 
 # DOME Implementation
 <ul>
-    <h3>Summary of current implementation</h3>
+    <b>NOTE : I have improvised and changed the formulation from those given earlier in write-up</b>
+    <hr>
+    <h3>Summary of Implementation</h3>
     <li>Utliized networkx library to form and visualize directed graphs</li>
     <li>Each road (edge) has two parameters : congestion (no of vehicles) and distance (the length of road)</li>
     <li>Each vehicle input consist of two parameters : source node, destination node</li>
@@ -105,5 +115,12 @@ python app.py
     </ul>
     </li>
     <li>Finally formed the QUBO matrix based on the equation</li>
-    <li>Solved it (for now) using dimod's eactSolver (classical simulator) which aims to minimize the total energy</li>
+    <li>Solved it (for now) using dimod's exactSolver (classical simulator) which aims to minimize the total energy</li>
+    <li>For optimizing traffic light timing :
+        <ul>
+            <li>Asssumed that traffic signal is present at each road ith point if road is going from j to i</li>
+            <li>the weight of each signal is determined by the congestion at that road</li>
+        </ul>
+    </li>
+    <li>Due to memory limitations, please look at the QUBO implementations details of traffic Signal (in city-network.ipynb) only</li>
 </ul>
