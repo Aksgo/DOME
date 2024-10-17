@@ -89,11 +89,12 @@ python app.py
 </ul>
 
 # Preview
+
 <p>Below are some images of application for a sample in city-data.txt</p>
-<div><img src="https://github.com/user-attachments/assets/ff7224e4-44d7-4758-8442-3fe12f58cee3"></div>
-<div><img src="https://github.com/user-attachments/assets/42666526-1be2-4d93-ab98-3541dd9c7529"></div>
-<div><img src="https://github.com/user-attachments/assets/6c9ca9e8-389e-413d-a7cd-a5ffac043226"></div>
-<div><img src="https://github.com/user-attachments/assets/792d8115-91fa-4c20-876f-bcf6ce6046e7"></div>
+<div><img src="https://github.com/user-attachments/assets/8c3f34c8-75db-4f13-ac14-d9c400b48e23"></div>
+<div><img src="https://github.com/user-attachments/assets/0f3e2f17-b3ae-455e-9150-43c71af837ed"></div>
+<div><img src="https://github.com/user-attachments/assets/4c98cccc-8cf8-4b58-a8e2-b460fb83aefb"></div>
+<div><img src="https://github.com/user-attachments/assets/b54ac62a-bf48-4a76-8319-470717442e3c"></div>
 
 # DOME Implementation
 <ul>
