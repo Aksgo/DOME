@@ -60,8 +60,6 @@ def alternativeRoutes(net, no_of_cars, sd):
     return routes
     #return [[[0,1,4],[0,1,3,4],[0,2,4]],[[0,2,5],[0,1,3,4,5],[0,1,4,5]]]
 
-#routes  = alternativeRoutes(no_of_cars,src_dest)
-
 def printRoutes(routes,no_of_cars, src_dest):
     print("Source-Destination Pairs for Rerouting:")
     ind = 1
@@ -186,7 +184,6 @@ def formQuboMatrix(net, routes, no_of_car, no_of_routes, src_dest):
             Q[(i*no_of_routes + j, i*no_of_routes + j)] -= K;
     return Q 
 
-#displayMatrix(Q, no_of_cars, no_of_routes)
 def solver(net,no_of_cars,src_dest):
 
     ## Graph formation using NetworkX
@@ -249,39 +246,36 @@ def solver(net,no_of_cars,src_dest):
                         if(i==0):car1_nodes = routes[i][j]
                         if(i==2):car2_nodes = routes[i][j]
                 ind+=1
-        '''
-    
 
-'''
-print("Best Solution")
-print("Blue represent Car 1 , Green represents Car 2")
-car1_edges = list(gp.utils.pairwise(car1_nodes))
-car2_edges = list(gp.utils.pairwise(car2_nodes))
-edge_labels = {(u, v): f'c: {d["congestion"]}, d: {d["distance"]}' for u, v, d in net.edges(data=True)}
-fig, axes = plt.subplots(1, 2, figsize=(15, 7)) 
-pos = gp.planar_layout(net)
-#car1
-node_colors = ['blue' if node in car1_nodes else 'black' for node in net.nodes()]
-edge_colors = ['blue' if (u, v) in car1_edges else 'black' for u, v in net.edges()]
-gp.draw_networkx_nodes(net, pos, node_color=node_colors, node_size=400,ax=axes[0])
-gp.draw_networkx_edges(net, pos, edge_color = edge_colors, arrowstyle='-|>', arrowsize=15,ax=axes[0])
-gp.draw_networkx_edge_labels(net, pos, edge_labels=edge_labels,ax=axes[0])
-gp.draw_networkx_labels(net, pos, font_size=10, font_color='white',ax=axes[0])
-axes[0].set_title("Optimized Route for Car 1 in the Network")
+    print("Best Solution")
+    print("Blue represent Car 1 , Green represents Car 2")
+    car1_edges = list(gp.utils.pairwise(car1_nodes))
+    car2_edges = list(gp.utils.pairwise(car2_nodes))
+    edge_labels = {(u, v): f'c: {d["congestion"]}, d: {d["distance"]}' for u, v, d in net.edges(data=True)}
+    fig, axes = plt.subplots(1, 2, figsize=(15, 7)) 
+    pos = gp.planar_layout(net)
+    #car1
+    node_colors = ['blue' if node in car1_nodes else 'black' for node in net.nodes()]
+    edge_colors = ['blue' if (u, v) in car1_edges else 'black' for u, v in net.edges()]
+    gp.draw_networkx_nodes(net, pos, node_color=node_colors, node_size=400,ax=axes[0])
+    gp.draw_networkx_edges(net, pos, edge_color = edge_colors, arrowstyle='-|>', arrowsize=15,ax=axes[0])
+    gp.draw_networkx_edge_labels(net, pos, edge_labels=edge_labels,ax=axes[0])
+    gp.draw_networkx_labels(net, pos, font_size=10, font_color='white',ax=axes[0])
+    axes[0].set_title("Optimized Route for Car 1 in the Network")
 
-#car2
-node_colors_car2 = ['green' if node in car2_nodes else 'black' for node in net.nodes()]
-edge_colors_car2 = ['green' if (u, v) in car2_edges else 'black' for u, v in net.edges()]
+    #car2
+    node_colors_car2 = ['green' if node in car2_nodes else 'black' for node in net.nodes()]
+    edge_colors_car2 = ['green' if (u, v) in car2_edges else 'black' for u, v in net.edges()]
 
-gp.draw_networkx_nodes(net, pos, node_color=node_colors_car2, node_size=400, ax=axes[1])
-gp.draw_networkx_edges(net, pos, edge_color=edge_colors_car2, arrowstyle='-|>', arrowsize=15, ax=axes[1])
-gp.draw_networkx_edge_labels(net, pos, edge_labels=edge_labels,ax=axes[1])
-gp.draw_networkx_labels(net, pos, font_size=10, font_color='white',ax=axes[1])
-axes[1].set_title("Optimized Route for Car 2 in the Network")
+    gp.draw_networkx_nodes(net, pos, node_color=node_colors_car2, node_size=400, ax=axes[1])
+    gp.draw_networkx_edges(net, pos, edge_color=edge_colors_car2, arrowstyle='-|>', arrowsize=15, ax=axes[1])
+    gp.draw_networkx_edge_labels(net, pos, edge_labels=edge_labels,ax=axes[1])
+    gp.draw_networkx_labels(net, pos, font_size=10, font_color='white',ax=axes[1])
+    axes[1].set_title("Optimized Route for Car 2 in the Network")
 
-plt.tight_layout()
-plt.show()
-'''
+    plt.tight_layout()
+    plt.show()
+    '''
 
 
 
