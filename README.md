@@ -6,7 +6,7 @@
         <li>Reduce traffic congestion</li>
         <li>Reduce delays</li>
         <li>Prioritize emergency vehicle</li>
-        <li>Optimizing traffic light timing</li>
+        <li>Optimizing traffic light timing (mathematical construction)</li>
     </ul>
 <li>It is a web-based solution to  optimize the traffic effectively</li>
 <li>Please view the document 'QUBO-Equation.pdf' to check the equations used</li>
