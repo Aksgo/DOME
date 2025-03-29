@@ -125,3 +125,5 @@ python app.py
     </li>
     <li>Due to memory limitations, please look at the QUBO implementations details of traffic Signal (in city-network.ipynb) only</li>
 </ul>
+
+### Copyright ©️ Aksgo, 2025
