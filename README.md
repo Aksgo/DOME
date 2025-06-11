@@ -1,5 +1,8 @@
 
 # DOME Traffic Optimizer
+
+### developments underway 
+
 <ul>
 <li>This project is to provide a way to :
     <ul>
