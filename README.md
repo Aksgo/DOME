@@ -1,7 +1,6 @@
 
-# DOME Traffic Optimizer
-
-### developments underway 
+# DOME 
+### QUBO model applied on Quantum Computer via QAOA
 
 <ul>
 <li>This project is to provide a way to :
