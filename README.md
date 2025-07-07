@@ -1,6 +1,6 @@
 # DOME: QUBO Model for Traffic Optimization Using Quantum Computing
 
-> **Notice**  
+> ⚠️**Notice**  
 > The source code in this repository is proprietary and is provided solely for review purposes.  
 > The author does **not grant** copyright or reuse rights to anyone, except under explicitly defined conditions.  
 > Please refer to the [LICENSE.md](./LICENSE.md) file for detailed terms and restrictions.
