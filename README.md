@@ -1,7 +1,10 @@
 
 # DOME 
+> ⚠️ **Notice**  
+The source code in this repository is proprietary and is provided solely for review purposes.  
+The author does **not grant** copyright or reuse rights to anyone, except under explicitly defined conditions.  
+Please refer to the [LICENSE.md](./LICENSE.md) file for detailed terms and restrictions.
 ### QUBO model applied on Quantum Computer via QAOA
-
 <ul>
 <li>This project is to provide a way to :
     <ul>
@@ -128,4 +131,4 @@ python app.py
     <li>Due to memory limitations, please look at the QUBO implementations details of traffic Signal (in city-network.ipynb) only</li>
 </ul>
 
-### Copyright ©️ Aksgo, 2025
+### Copyright © Aksgo, 2025
