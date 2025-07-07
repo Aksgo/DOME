@@ -1,6 +1,6 @@
 # License
 
-Copyright © Aksgo, 2025  
+Copyright © Akshit, 2025  
 All rights reserved.
 
 This source code and all associated files in this repository are proprietary and confidential. Unauthorized copying, reproduction, modification, redistribution, or commercial use of any part of this codebase is strictly prohibited without the prior written consent of the author.
